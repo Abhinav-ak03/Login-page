@@ -1,0 +1,61 @@
+
+ <%- include('header', { title: 'Login Page' }) %>
+    <div class="text-center center-div" id="login">
+        <div class="container bg-transparent shadow-lg w-25 border py-5">
+            <div class="title pb-5">
+                <h2 class="font-weight-bold">Login Page</h2>
+                <span>Login for the existing user</span>
+            </div>
+            <% if (error) { %>
+                <div style="color: red;">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+           
+            <form action="/login" method="POST" class="pt-3" id="login-form">
+                <div class="form-group">
+
+                    <% if (email) { %>
+                        <input type="email"  class="form-control email" placeholder="Email" name="email" value="<%= email %>">
+                        <div id="email-error-message" style="color: red;"></div>
+                    <% } else {%>
+                    <input type="text" class="form-control email" placeholder="Email" name="email" >
+                    <div id="email-error-message" style="color: red;"></div>
+                    <% } %>
+                    <small class="form-text text-muted text-left">Enter your email</small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control password mb-2" name="password" placeholder="Password" >
+                    <div id="pass-error-message" style="color: red;"></div>
+                </div>
+                <button type="submit" class="btn btn-light rounded-pill mx-1">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('login-form').addEventListener('submit', function (event) {
+                event.preventDefault(); 
+                const email = document.querySelector('.email').value;
+                const password = document.querySelector('.password').value;
+
+                //regex pattern
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                const passPattern= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                if (!emailPattern.test(email)) {
+                    document.getElementById('email-error-message').innerText = 'Enter a valid email address';
+                    return;
+                }
+                if (!passPattern.test(password)) {
+                    document.getElementById('pass-error-message').innerText = 'Enter a valid password';
+                    return;
+                }
+    
+               
+                this.submit();
+            });
+        });
+    </script>
+    
+    <%- include('footer') %>
+    
